@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ONYX Music Player</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    background:#070707;
+    color:white;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+}
+
+/* BACKGROUND GLOW */
+
+.bg1,
+.bg2{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(120px);
+}
+
+.bg1{
+    width:400px;
+    height:400px;
+    background:#1f1f1f;
+    top:-100px;
+    left:-100px;
+}
+
+.bg2{
+    width:500px;
+    height:500px;
+    background:#151515;
+    bottom:-150px;
+    right:-150px;
+}
+
+/* PLAYER */
+
+.player{
+    width:950px;
+    height:560px;
+    background:#101010;
+    border:1px solid #262626;
+    border-radius:30px;
+    overflow:hidden;
+    display:flex;
+    z-index:2;
+    box-shadow:0 0 50px rgba(0,0,0,.8);
+}
+
+/* LEFT */
+
+.left{
+    width:40%;
+    background:#0c0c0c;
+    border-right:1px solid #222;
+    padding:40px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+
+.cover{
+    width:280px;
+    height:280px;
+    border-radius:25px;
+    overflow:hidden;
+    margin-bottom:30px;
+    box-shadow:0 10px 40px rgba(0,0,0,.8);
+}
+
+.cover img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.song-title{
+    font-size:30px;
+    font-weight:bold;
+    margin-bottom:10px;
+    text-align:center;
+}
+
+.artist{
+    color:#999;
+    font-size:17px;
+}
+
+/* RIGHT */
+
+.right{
+    flex:1;
+    padding:30px;
+    display:flex;
+    flex-direction:column;
+}
+
+/* TOP */
+
+.top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.logo{
+    font-size:28px;
+    font-weight:bold;
+    letter-spacing:2px;
+}
+
+.search{
+    width:300px;
+    height:50px;
+    background:#171717;
+    border:1px solid #2a2a2a;
+    border-radius:15px;
+    display:flex;
+    align-items:center;
+    padding:0 18px;
+    gap:12px;
+}
+
+.search input{
+    width:100%;
+    background:none;
+    border:none;
+    outline:none;
+    color:white;
+    font-size:15px;
+}
+
+/* SONG LIST */
+
+.song-list{
+    flex:1;
+    overflow-y:auto;
+    padding-right:5px;
+}
+
+.song-list::-webkit-scrollbar{
+    width:5px;
+}
+
+.song-list::-webkit-scrollbar-thumb{
+    background:#333;
+    border-radius:10px;
+}
+
+.song{
+    background:#141414;
+    border:1px solid #252525;
+    border-radius:20px;
+    padding:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.song:hover{
+    transform:scale(1.02);
+    background:#1a1a1a;
+}
+
+.song-left{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.song-left img{
+    width:65px;
+    height:65px;
+    border-radius:14px;
+    object-fit:cover;
+}
+
+.song-info h4{
+    margin-bottom:5px;
+}
+
+.song-info p{
+    color:#888;
+    font-size:14px;
+}
+
+.song button{
+    width:45px;
+    height:45px;
+    border:none;
+    border-radius:50%;
+    background:white;
+    color:black;
+    font-size:15px;
+    cursor:pointer;
+}
+
+/* CONTROLS */
+
+.controls{
+    margin-top:20px;
+    background:#0d0d0d;
+    border:1px solid #232323;
+    padding:20px;
+    border-radius:20px;
+}
+
+.progress{
+    width:100%;
+    height:6px;
+    background:#222;
+    border-radius:20px;
+    overflow:hidden;
+    margin-bottom:20px;
+}
+
+.progress-bar{
+    width:0%;
+    height:100%;
+    background:white;
+}
+
+.buttons{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:25px;
+}
+
+.buttons button{
+    background:none;
+    border:none;
+    color:white;
+    font-size:22px;
+    cursor:pointer;
+}
+
+.play-main{
+    width:65px;
+    height:65px;
+    border-radius:50%;
+    background:white !important;
+    color:black !important;
+    font-size:24px !important;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+    .player{
+        width:95%;
+        height:auto;
+        flex-direction:column;
+    }
+
+    .left{
+        width:100%;
+        border-right:none;
+        border-bottom:1px solid #222;
+    }
+
+    .search{
+        width:200px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="bg1"></div>
+<div class="bg2"></div>
+
+<div class="player">
+
+    <!-- LEFT -->
+
+    <div class="left">
+
+        <div class="cover">
+            <img id="mainCover" src="covers/song1.jpg">
+        </div>
+
+        <div class="song-title" id="mainTitle">
+            Midnight City
+        </div>
+
+        <div class="artist" id="mainArtist">
+            Onyx Artist
+        </div>
+
+    </div>
+
+    <!-- RIGHT -->
+
+    <div class="right">
+
+        <div class="top">
+
+            <div class="logo">
+                ONYX MUSIC
+            </div>
+
+            <div class="search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input
+                type="text"
+                placeholder="Search songs..."
+                id="searchInput">
+            </div>
+
+        </div>
+
+        <!-- SONGS -->
+
+        <div class="song-list" id="songList">
+
+            <!-- SONG 1 -->
+
+            <div class="song"
+            data-title="Midnight City"
+            data-artist="Onyx Artist"
+            data-cover="covers/song1.jpg"
+            data-src="music/song1.mp3">
+
+                <div class="song-left">
+
+                    <img src="covers/song1.jpg">
+
+                    <div class="song-info">
+                        <h4>Midnight City</h4>
+                        <p>Onyx Artist</p>
+                    </div>
+
+                </div>
+
+                <button>
+                    <i class="fa-solid fa-play"></i>
+                </button>
+
+            </div>
+
+            <!-- SONG 2 -->
+
+            <div class="song"
+            data-title="Neon Dreams"
+            data-artist="Skyline"
+            data-cover="covers/song2.jpg"
+            data-src="music/song2.mp3">
+
+                <div class="song-left">
+
+                    <img src="covers/song2.jpg">
+
+                    <div class="song-info">
+                        <h4>Neon Dreams</h4>
+                        <p>Skyline</p>
+                    </div>
+
+                </div>
+
+                <button>
+                    <i class="fa-solid fa-play"></i>
+                </button>
+
+            </div>
+
+            <!-- SONG 3 -->
+
+            <div class="song"
+            data-title="After Hours"
+            data-artist="Nightfall"
+            data-cover="covers/song3.jpg"
+            data-src="music/song3.mp3">
+
+                <div class="song-left">
+
+                    <img src="covers/song3.jpg">
+
+                    <div class="song-info">
+                        <h4>After Hours</h4>
+                        <p>Nightfall</p>
+                    </div>
+
+                </div>
+
+                <button>
+                    <i class="fa-solid fa-play"></i>
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- CONTROLS -->
+
+        <div class="controls">
+
+            <div class="progress">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+
+            <div class="buttons">
+
+                <button>
+                    <i class="fa-solid fa-backward"></i>
+                </button>
+
+                <button class="play-main" id="mainPlay">
+                    <i class="fa-solid fa-play"></i>
+                </button>
+
+                <button>
+                    <i class="fa-solid fa-forward"></i>
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<audio id="audio"></audio>
+
+<script>
+
+const songs = document.querySelectorAll(".song");
+
+const audio = document.getElementById("audio");
+
+const mainTitle =
+document.getElementById("mainTitle");
+
+const mainArtist =
+document.getElementById("mainArtist");
+
+const mainCover =
+document.getElementById("mainCover");
+
+const mainPlay =
+document.getElementById("mainPlay");
+
+const progressBar =
+document.getElementById("progressBar");
+
+const searchInput =
+document.getElementById("searchInput");
+
+let playing = false;
+
+/* LOAD SONG */
+
+songs.forEach(song => {
+
+    song.addEventListener("click", () => {
+
+        const title =
+        song.dataset.title;
+
+        const artist =
+        song.dataset.artist;
+
+        const cover =
+        song.dataset.cover;
+
+        const src =
+        song.dataset.src;
+
+        mainTitle.innerText = title;
+        mainArtist.innerText = artist;
+        mainCover.src = cover;
+
+        audio.src = src;
+
+        audio.play();
+
+        playing = true;
+
+        mainPlay.innerHTML =
+        '<i class="fa-solid fa-pause"></i>';
+
+    });
+
+});
+
+/* PLAY / PAUSE */
+
+mainPlay.addEventListener("click", () => {
+
+    if(audio.src === "") return;
+
+    if(playing){
+
+        audio.pause();
+
+        playing = false;
+
+        mainPlay.innerHTML =
+        '<i class="fa-solid fa-play"></i>';
+
+    }else{
+
+        audio.play();
+
+        playing = true;
+
+        mainPlay.innerHTML =
+        '<i class="fa-solid fa-pause"></i>';
+
+    }
+
+});
+
+/* PROGRESS BAR */
+
+audio.addEventListener("timeupdate", () => {
+
+    const progress =
+    (audio.currentTime / audio.duration) * 100;
+
+    progressBar.style.width =
+    progress + "%";
+
+});
+
+/* SEARCH */
+
+searchInput.addEventListener("keyup", () => {
+
+    const value =
+    searchInput.value.toLowerCase();
+
+    songs.forEach(song => {
+
+        const text =
+        song.innerText.toLowerCase();
+
+        song.style.display =
+        text.includes(value)
+        ? "flex"
+        : "none";
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>
