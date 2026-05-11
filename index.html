@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>ONYX Music Player</title>
 
 <link rel="stylesheet"
@@ -15,7 +14,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
+    font-family:Arial, sans-serif;
 }
 
 body{
@@ -25,43 +24,28 @@ body{
     display:flex;
     justify-content:center;
     align-items:center;
-    overflow:hidden;
 }
-
-/* BACKGROUND */
-
-.bg{
-    position:absolute;
-    width:500px;
-    height:500px;
-    background:radial-gradient(circle,#222,#000);
-    filter:blur(120px);
-}
-
-/* PLAYER */
 
 .player{
-    width:950px;
-    height:560px;
+    width:900px;
+    height:550px;
     background:#101010;
     border:1px solid #222;
-    border-radius:30px;
+    border-radius:25px;
     display:flex;
     overflow:hidden;
-    z-index:2;
 }
 
 /* LEFT */
-
 .left{
     width:40%;
     background:#0c0c0c;
-    border-right:1px solid #222;
     display:flex;
     flex-direction:column;
     justify-content:center;
     align-items:center;
-    padding:40px;
+    padding:30px;
+    border-right:1px solid #222;
 }
 
 .cover{
@@ -69,7 +53,7 @@ body{
     height:260px;
     border-radius:20px;
     overflow:hidden;
-    margin-bottom:25px;
+    margin-bottom:20px;
 }
 
 .cover img{
@@ -79,10 +63,8 @@ body{
 }
 
 .song-title{
-    font-size:26px;
+    font-size:24px;
     font-weight:bold;
-    margin-bottom:8px;
-    text-align:center;
 }
 
 .artist{
@@ -90,7 +72,6 @@ body{
 }
 
 /* RIGHT */
-
 .right{
     flex:1;
     padding:25px;
@@ -98,44 +79,10 @@ body{
     flex-direction:column;
 }
 
-/* TOP */
-
-.top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:20px;
-}
-
 .logo{
     font-size:26px;
     font-weight:bold;
-}
-
-.search{
-    background:#1a1a1a;
-    border:1px solid #333;
-    padding:10px 15px;
-    border-radius:12px;
-    display:flex;
-    gap:10px;
-    align-items:center;
-    width:280px;
-}
-
-.search input{
-    background:none;
-    border:none;
-    outline:none;
-    color:white;
-    width:100%;
-}
-
-/* SONGS */
-
-.song-list{
-    flex:1;
-    overflow-y:auto;
+    margin-bottom:20px;
 }
 
 .song{
@@ -148,11 +95,9 @@ body{
     align-items:center;
     margin-bottom:12px;
     cursor:pointer;
-    transition:.2s;
 }
 
 .song:hover{
-    transform:scale(1.02);
     background:#1c1c1c;
 }
 
@@ -166,7 +111,6 @@ body{
     width:55px;
     height:55px;
     border-radius:10px;
-    object-fit:cover;
 }
 
 .song-info h4{
@@ -188,13 +132,9 @@ body{
 }
 
 /* CONTROLS */
-
 .controls{
-    margin-top:15px;
-    background:#0d0d0d;
-    padding:15px;
-    border-radius:15px;
-    border:1px solid #222;
+    margin-top:auto;
+    padding-top:20px;
 }
 
 .progress{
@@ -202,7 +142,6 @@ body{
     height:5px;
     background:#222;
     border-radius:10px;
-    overflow:hidden;
     margin-bottom:15px;
 }
 
@@ -226,7 +165,7 @@ body{
     cursor:pointer;
 }
 
-.play-main{
+.play{
     width:60px;
     height:60px;
     border-radius:50%;
@@ -234,26 +173,10 @@ body{
     color:black !important;
 }
 
-/* MOBILE */
-
-@media(max-width:900px){
-    .player{
-        flex-direction:column;
-        width:95%;
-        height:auto;
-    }
-
-    .left{
-        width:100%;
-    }
-}
-
 </style>
 </head>
 
 <body>
-
-<div class="bg"></div>
 
 <div class="player">
 
@@ -261,85 +184,36 @@ body{
 <div class="left">
 
     <div class="cover">
-        <img id="mainCover" src="covers/song1.jpg">
+        <img id="cover" src="https://upload.wikimedia.org/wikipedia/en/7/70/Graduation_%28album%29.jpg">
     </div>
 
-    <div class="song-title" id="mainTitle">Select a Song</div>
-    <div class="artist" id="mainArtist">Artist</div>
+    <div class="song-title" id="title">Select a Song</div>
+    <div class="artist" id="artist">Artist</div>
 
 </div>
 
 <!-- RIGHT -->
 <div class="right">
 
-    <div class="top">
-        <div class="logo">ONYX MUSIC</div>
+    <div class="logo">ONYX MUSIC</div>
 
-        <div class="search">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input id="searchInput" placeholder="Search songs">
-        </div>
-    </div>
+    <!-- SONGS -->
 
-    <div class="song-list">
+    <div class="song"
+    data-title="I Wonder"
+    data-artist="Kanye West"
+    data-cover="https://upload.wikimedia.org/wikipedia/en/7/70/Graduation_%28album%29.jpg"
+    data-src="iwonder.mp3">
 
-        <!-- SONG 1 -->
-        <div class="song"
-        data-title="Song 1"
-        data-artist="Artist 1"
-        data-cover="covers/song1.jpg"
-        data-src="music/song1.mp3">
-
-            <div class="song-left">
-                <img src="covers/song1.jpg">
-                <div class="song-info">
-                    <h4>Song 1</h4>
-                    <p>Artist 1</p>
-                </div>
+        <div class="song-left">
+            <img src="https://upload.wikimedia.org/wikipedia/en/7/70/Graduation_%28album%29.jpg">
+            <div class="song-info">
+                <h4>I Wonder</h4>
+                <p>Kanye West</p>
             </div>
-
-            <button><i class="fa-solid fa-play"></i></button>
-
         </div>
 
-        <!-- SONG 2 -->
-        <div class="song"
-        data-title="Song 2"
-        data-artist="Artist 2"
-        data-cover="covers/song2.jpg"
-        data-src="music/song2.mp3">
-
-            <div class="song-left">
-                <img src="covers/song2.jpg">
-                <div class="song-info">
-                    <h4>Song 2</h4>
-                    <p>Artist 2</p>
-                </div>
-            </div>
-
-            <button><i class="fa-solid fa-play"></i></button>
-
-        </div>
-
-        <!-- I WONDER FIXED -->
-        <div class="song"
-        data-title="I Wonder"
-        data-artist="Kanye West"
-        data-cover="https://upload.wikimedia.org/wikipedia/en/7/70/Graduation_%28album%29.jpg"
-        data-src="music/iwonder.mp3">
-
-            <div class="song-left">
-                <img src="https://upload.wikimedia.org/wikipedia/en/7/70/Graduation_%28album%29.jpg">
-                <div class="song-info">
-                    <h4>I Wonder</h4>
-                    <p>Kanye West</p>
-                </div>
-            </div>
-
-            <button><i class="fa-solid fa-play"></i></button>
-
-        </div>
-
+        <button><i class="fa-solid fa-play"></i></button>
     </div>
 
     <!-- CONTROLS -->
@@ -347,13 +221,13 @@ body{
     <div class="controls">
 
         <div class="progress">
-            <div class="progress-bar" id="progressBar"></div>
+            <div class="progress-bar" id="bar"></div>
         </div>
 
         <div class="buttons">
             <button><i class="fa-solid fa-backward"></i></button>
 
-            <button class="play-main" id="mainPlay">
+            <button class="play" id="playBtn">
                 <i class="fa-solid fa-play"></i>
             </button>
 
@@ -370,35 +244,33 @@ body{
 
 <script>
 
-const songs = document.querySelectorAll(".song");
+const song = document.querySelector(".song");
 const audio = document.getElementById("audio");
 
-const title = document.getElementById("mainTitle");
-const artist = document.getElementById("mainArtist");
-const cover = document.getElementById("mainCover");
+const title = document.getElementById("title");
+const artist = document.getElementById("artist");
+const cover = document.getElementById("cover");
 
-const playBtn = document.getElementById("mainPlay");
-const progress = document.getElementById("progressBar");
+const playBtn = document.getElementById("playBtn");
+const bar = document.getElementById("bar");
 
 let playing = false;
 
 /* LOAD SONG */
-songs.forEach(song => {
-    song.onclick = () => {
+song.onclick = () => {
 
-        audio.src = song.dataset.src;
-        title.innerText = song.dataset.title;
-        artist.innerText = song.dataset.artist;
-        cover.src = song.dataset.cover;
+    audio.src = song.dataset.src; // 👈 FIXED (iwonder.mp3 in ROOT)
+    title.innerText = song.dataset.title;
+    artist.innerText = song.dataset.artist;
+    cover.src = song.dataset.cover;
 
-        audio.play();
-        playing = true;
+    audio.play();
+    playing = true;
 
-        playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-    }
-});
+    playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+};
 
-/* PLAY/PAUSE */
+/* PLAY / PAUSE */
 playBtn.onclick = () => {
 
     if(!audio.src) return;
@@ -412,11 +284,12 @@ playBtn.onclick = () => {
         playing = true;
         playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
     }
+
 };
 
 /* PROGRESS */
 audio.ontimeupdate = () => {
-    progress.style.width =
+    bar.style.width =
     (audio.currentTime / audio.duration) * 100 + "%";
 };
 
